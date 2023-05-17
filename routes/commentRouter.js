@@ -8,7 +8,7 @@ const router = new Router()
 
 router.get("/", commentController.getAll)
 router.post("/", checkAuth, commentController.create)
-router.delete("/", checkAuth, commentController.remove)
+router.delete("/delete", checkAuth, commentController.remove)
 router.patch("/", checkAuth, commentController.updateLike)
 router.get("/check", commentController.checkOne)
 router.patch("/update", commentController.updateComment)

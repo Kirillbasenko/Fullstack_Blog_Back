@@ -26,9 +26,9 @@ export const checkOne = async (req, res) => {
    try {
       let {id} = req.query
       const doc = await CommentInfoInfo.findOne({ _id: id }).exec();
-      if (!doc) {
-         return res.status(303).json({ message: 'Стаття не знайдена' });
-      }
+      /*if (!doc) {
+         return res.status(403).json({ message: 'Стаття не знайдена' });
+      }*/
       return res.json(doc);
    } catch (err) {
       console.log(err);

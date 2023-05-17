@@ -14,24 +14,25 @@ mongoose
 const app = express()
 
 const storage = multer.diskStorage({
-   destination: (_, __, cb) => {
-      cb(null, "upload")
+   destination: "upload/",
+   filename: (req, file, cb) => {
+      cb(null, file.originalname);
    },
-   filename: (_, file, cb) => {
-      cb(null, file.originalname)
-   } 
 })
 
 const upload = multer({storage})
 
-app.use(cors())
-app.use(express.json())
-app.use("/api", router)
 app.use("/upload", express.static("upload"))
 
 app.post("/upload", upload.single("image"), (req, res) => {
-   res.json({url: `/upload/${req.file.originalname}`})
+   const imageUrl = `https://zebra-gabardine.cyclic.app/upload/${req.file.originalname}`;
+   res.json({ url: imageUrl });
 })
+
+app.use(cors())
+app.use(express.json())
+app.use("/api", router)
+
 
 app.get("/", (req, res) => {
    res.status(200).json({message: "Working"})
