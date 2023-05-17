@@ -24,6 +24,11 @@ const upload = multer({storage})
 
 app.use("/upload", express.static("upload"))
 
+app.get('/upload', (req, res) => {
+   res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+   res.send('Ответ сервера');
+   });
+
 app.post("/upload", upload.single("image"), (req, res) => {
    const imageUrl = `https://zebra-gabardine.cyclic.app/upload/${req.file.originalname}`;
    res.json({ url: imageUrl });
