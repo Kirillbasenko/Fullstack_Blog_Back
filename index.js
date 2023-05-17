@@ -26,7 +26,7 @@ app.use("/upload", express.static("upload"))
 
 app.post("/upload", upload.single("image"), (req, res) => {
    const imageUrl = `https://zebra-gabardine.cyclic.app/upload/${req.file.originalname}`;
-   res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+   res.header('Access-Control-Allow-Origin', 'https://fullstack-blog-front.vercel.app');
    res.json({ url: imageUrl });
 })
 
