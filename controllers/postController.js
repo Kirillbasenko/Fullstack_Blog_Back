@@ -143,16 +143,17 @@ export const update = async (req, res) => {
 
 export const updateLike = async (req, res) => {
    try {
-      const {id, likes, likesUsers} = req.body
+      const {id, likes, likesUsers, userId} = req.body
       const doc = await PostModel.findOneAndUpdate(
-      { _id: id },
-      { likes, likesUsers },
-      { returnDocument: "after" }
-   );
-   if (!doc) {
-      return res.status(404).json({ message: 'Стаття не знайдена' });
-   }
-   return res.json(doc);
+         { _id: id },
+         { likes, likesUsers },
+         { returnDocument: "after" }
+      );
+      const posts = await PostModel.find({user: {_id: userId}}).populate('user').exec()
+      if (!doc) {
+         return res.status(404).json({ message: 'Стаття не знайдена' });
+      }
+      return res.json({doc, posts});
    } catch (err) {
       console.log(err);
       res.status(500).json({
