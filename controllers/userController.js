@@ -82,6 +82,45 @@ export const login = async (req, res) => {
    }
 };
 
+export const getAllUsers = async (req, res) => {
+   try {
+      let {limit} = req.query
+      limit = limit || null
+      let posts = await UserModel.find().sort({createdAt: -1}).limit(limit).exec();
+      //let filterPost = res.filter(item => item.name !== user.name)
+      res.json(posts);
+   } catch (err) {
+      console.log(err);
+      res.status(500).json({
+         message: 'Не вдалось повернути товар',
+      });
+   }
+};
+
+export const updateFriends = async (req, res) => {
+   try {
+      const {id, friends, friendId} = req.body
+
+      const doc = await UserModel.findOneAndUpdate(
+         { _id: id },
+         { friends },
+         { returnDocument: "after" }
+      );
+      const user = await UserModel.findById(friendId).exec();
+      const { password, ...userData } = user._doc;
+      /*if (!doc) {
+         return res.status(404).json({ message: 'Стаття не знайдена' });
+      }*/
+      
+      return res.json({doc, userData});
+   } catch (err) {
+      console.log(err);
+      res.status(500).json({
+         message: 'Не вдалось повернути статтю',
+      });
+   }
+};
+
 export const checkUser = async (req, res) => {
    try {
       const {_id} = req.query
@@ -100,6 +139,26 @@ export const checkUser = async (req, res) => {
       console.log(err);
       res.status(500).json({
          message: 'Нет доступа',
+      });
+   }
+};
+
+export const updateViewUser = async (req, res) => {
+   try {
+      const {id} = req.body
+      const doc = await UserModel.updateOne(
+         { _id: id },
+         { $inc: { viewsCount: 1 } },  
+         { returnDocument: "after" }
+      );
+      if (!doc) {
+         return res.status(404).json({ message: 'Стаття не знайдена' });
+      }
+      return res.json(doc);
+   } catch (err) {
+      console.log(err);
+      res.status(500).json({
+         message: 'Не вдалось повернути статтю',
       });
    }
 };

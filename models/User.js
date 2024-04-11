@@ -12,6 +12,7 @@ const UserSchema = new mongoose.Schema({
    avatarImage: {type: String, default: ""},
    backgroundImage: {type: String, default: ""},
    viewsCount: {type: Number, default: 0},
+   friends: {type: Array, default: []}
 }, {
    timestamps: true
 })

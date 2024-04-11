@@ -25,15 +25,19 @@ export const create = async (req, res) => {
 
 export const getAll = async (req, res) => {
    try {
-      let {limit, page, tag} = req.query
+      let {limit, page, tag, userId} = req.query
       page = page || 1
       limit = limit || null
+      userId = userId || null
       let offset = page * limit - limit
       let posts
       let postsAll
       if(tag){
          posts = await PostModel.find({tags: tag}).sort({createdAt: -1}).populate('user').limit(limit).skip(offset).exec();
          postsAll = await PostModel.find({tags: tag}).populate('user').exec();
+      }else if(userId){
+         posts = await PostModel.find({user: {_id: userId}}).sort({createdAt: -1}).populate('user').limit(limit).skip(offset).exec();
+         postsAll = await PostModel.find({user: {_id: userId}}).populate('user').exec();
       }else{
          posts = await PostModel.find().sort({createdAt: -1}).populate('user').limit(limit).skip(offset).exec();
          postsAll = await PostModel.find().populate('user').exec();
@@ -154,6 +158,19 @@ export const updateLike = async (req, res) => {
          return res.status(404).json({ message: 'Стаття не знайдена' });
       }
       return res.json({doc, posts});
+   } catch (err) {
+      console.log(err);
+      res.status(500).json({
+         message: 'Не вдалось повернути ',
+      });
+   }
+};
+
+export const getAllPostOnlyUser = async (req, res) => {
+   try {
+      const {userId} = req.query
+      const posts = await PostModel.find({user: {_id: userId}}).sort({createdAt: -1}).populate('user').exec()
+      return res.json({posts});
    } catch (err) {
       console.log(err);
       res.status(500).json({

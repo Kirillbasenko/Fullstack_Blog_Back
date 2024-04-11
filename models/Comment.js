@@ -5,7 +5,7 @@ const CommentInfoSchema = new mongoose.Schema({
    postId: {type: String, required: true,},
    like: {type: Number, default: 0},
    likesUsers: {type: Array, default: []},
-   comment: {type: String, required: true,},
+   comment: {type: String},
    img: {type: String},
 }, {
    timestamps: true
