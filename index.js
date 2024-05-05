@@ -1,9 +1,9 @@
 import express from "express"
 import mongoose from "mongoose"
 import cors from "cors"
+
 import multer from "multer"
 import router from "./routes/index.js"
-
 const PORT = process.env.PORT || 5000
 
 mongoose
@@ -21,13 +21,7 @@ const storage = multer.diskStorage({
       cb(null, file.originalname);
    },
 })
-//app.use(cors())
-
-const corsOptions = {
-   origin: 'https://fullstack-blog-front.vercel.app',
-};
-
-app.use(cors(corsOptions));
+app.use(cors())
 
 const upload = multer({storage})
 
