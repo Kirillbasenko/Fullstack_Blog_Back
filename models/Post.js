@@ -5,7 +5,8 @@ const PostSchema = new mongoose.Schema({
    title: {type: String, require: true},
    likes: {type: Number, default: 0},
    likesUsers: {type: Array, default: []},
-   img: {type: String},
+   img: {type: String, default: ""},
+   video: {type: String, default: ""},
    tags: {type: Array, default: []},
    viewsCount: {type: Number, default: 0},
    type: {type: String, require: true}

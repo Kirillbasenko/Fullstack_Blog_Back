@@ -2,13 +2,14 @@ import PostModel from "../models/Post.js"
 
 export const create = async (req, res) => {
    try {
-      let {title, tags, img, type} = req.body
+      let {title, tags, img, type, video} = req.body
 
       const doc = new PostModel({
          title,
          tags,
          img,
          type,
+         video,
          user: req.userId
       });
 

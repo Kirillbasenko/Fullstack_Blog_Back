@@ -126,20 +126,20 @@ export const checkUser = async (req, res) => {
       const {_id} = req.query
       const user = await UserModel.findById(_id).exec();
 
-      if (!user) {
+      /*if (!user) {
          return res.status(404).json({
          message: 'Пользователь не найден',
          });
-      }
+      }*/
 
       const { password, ...userData } = user._doc;
 
       res.json(userData);
    } catch (err) {
       console.log(err);
-      res.status(500).json({
+      /*res.status(500).json({
          message: 'Нет доступа',
-      });
+      });*/
    }
 };
 

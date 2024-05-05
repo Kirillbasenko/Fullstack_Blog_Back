@@ -21,7 +21,13 @@ const storage = multer.diskStorage({
       cb(null, file.originalname);
    },
 })
-app.use(cors())
+//app.use(cors())
+
+const corsOptions = {
+   origin: 'https://fullstack-blog-front.vercel.app',
+};
+
+app.use(cors(corsOptions));
 
 const upload = multer({storage})
 
@@ -33,6 +39,11 @@ app.post("/upload", upload.single("image"), (req, res) => {
    })
 })
 
+app.post("/uploadVideo", upload.single("video"), (req, res) => {
+   res.json({
+      url: `/upload/${req.file.originalname}`
+   })
+})
 
 app.use(express.json())
 app.use("/api", router)
