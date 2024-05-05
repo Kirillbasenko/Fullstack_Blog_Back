@@ -29,7 +29,7 @@ app.use("/upload", express.static("upload"))
 
 app.post("/upload", upload.single("image"), (req, res) => {
    res.json({
-      ..url: `/upload/${req.file.originalname}`
+      //url: `/upload/${req.file.originalname}`
       url: `/upload/`
    })
 })
