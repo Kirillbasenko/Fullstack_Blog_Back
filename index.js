@@ -23,14 +23,18 @@ const storage = multer.diskStorage({
 })
 app.use(cors())
 
+
+
+app.use(express.json())
+app.use("/api", router)
+
 const upload = multer({storage})
 
 app.use("/upload", express.static("upload"))
 
 app.post("/upload", upload.single("image"), (req, res) => {
    res.json({
-      //url: `/upload/${req.file.originalname}`
-      url: `/upload/`
+      url: `/upload/${req.file.originalname}`
    })
 })
 
@@ -39,10 +43,6 @@ app.post("/uploadVideo", upload.single("video"), (req, res) => {
       url: `/upload/${req.file.originalname}`
    })
 })
-
-app.use(express.json())
-app.use("/api", router)
-
 
 app.get("/", (req, res) => {
    res.status(200).json({message: "Working"})
