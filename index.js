@@ -21,35 +21,26 @@ const storage = multer.diskStorage({
       cb(null, file.originalname);
    },
 })
-app.use(cors())
-
-
-
-app.use(express.json())
-app.use("/api", router)
 
 const upload = multer({storage})
+
+app.use(cors())
+app.use(express.json())
+app.use("/api", router)
 
 app.use("/upload", express.static("upload"))
 
 app.post("/upload", upload.single("image"), (req, res) => {
-   try{
-      return res.json({
-         url: `/upload/${req.file.originalname}`
-      })
-   }catch(e){
-      res.status(404).json({
-         message: 'Не вдалось створити статтю',
-      });
-   }
-   
-})
-
-app.post("/uploadVideo", upload.single("video"), (req, res) => {
    res.json({
       url: `/upload/${req.file.originalname}`
    })
 })
+
+/*app.post("/uploadVideo", upload.single("video"), (req, res) => {
+   res.json({
+      url: `/upload/${req.file.originalname}`
+   })
+})*/
 
 app.get("/", (req, res) => {
    res.status(200).json({message: "Working"})
