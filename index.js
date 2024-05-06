@@ -36,6 +36,12 @@ app.post("/upload", upload.single("image"), (req, res) => {
    })
 })
 
+app.get("/upload", upload.single("image"), (req, res) => {
+   res.json({
+      url: `/upload/`
+   })
+})
+
 app.post("/uploadVideo", upload.single("video"), (req, res) => {
    res.json({
       url: `/upload/${req.file.originalname}`
