@@ -36,11 +36,11 @@ app.post("/upload", upload.single("image"), (req, res) => {
    })
 })
 
-/*app.post("/uploadVideo", upload.single("video"), (req, res) => {
+app.post("/uploadVideo", upload.single("video"), (req, res) => {
    res.json({
       url: `/upload/${req.file.originalname}`
    })
-})*/
+})
 
 app.get("/", (req, res) => {
    res.status(200).json({message: "Working"})
