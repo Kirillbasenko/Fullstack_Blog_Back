@@ -33,9 +33,16 @@ const upload = multer({storage})
 app.use("/upload", express.static("upload"))
 
 app.post("/upload", upload.single("image"), (req, res) => {
-   res.json({
-      url: `/upload/${req.file.originalname}`
-   })
+   try{
+      return res.json({
+         url: `/upload/${req.file.originalname}`
+      })
+   }catch(e){
+      res.status(404).json({
+         message: 'Не вдалось створити статтю',
+      });
+   }
+   
 })
 
 app.post("/uploadVideo", upload.single("video"), (req, res) => {
